@@ -1,41 +1,64 @@
-Webcam.set({
-    width:350,
-    heigt:300,
-    image_format : 'png',
-    png_qaulity:90
-});
-
- camera = document.getElementById("camera");
- Webcam.attach("#camera");
-
- function take_snapshot()
+function setup() 
 {
-    Webcam.snap(function(data_uri){
-        document.getElementById("result").innerHTML = '<img id"captured_image" src="'+data_uri+ '"/>'
-    });
-    console.log("ml5 version", ml5.version )
-    classifier = ml5.imageClassifier()
+    canvas = createCanvas(280, 280);
+    canvas.center();
+    background("white");
+    canvas.mouseReleased(classifyCanvas);
+    synth=window.speechSynthesis;
 }
 
-function modelLoaded() 
+function preload()
 {
-console.log(modelLoaded)
+     classifier = ml5.imageClassifier('DoodleNet');
 }
 
-function check() 
+function draw()
 {
-    img= document.getElementById('captured_image')
-    classifier.classify(img, gotResult);
+ strokeWeight(13);
+ stroke(0);
+ if (mouseIsPressed)
+ {
+line(pmouseX, pmouseY, mouseX, mouseY)
+ }
 }
 
-function gotResult(error, results) {
-    if (error) {
-        console.error(error);
-    }
-    else
+function  counter()
+{
+    if(condition){
+        counter++
+        }
+        
+}
+
+function counter_speed()
+{
+    if(stroke=='black' || stroke=='red'){
+        line(30,40,25,50)
+        }
+}
+
+
+function gotResult(error, results)
+{
+    if (error)
     {
-        console.log(results)
-        document.getElementById("result_object_name").innerHTML=results[0].label;
-        document.getElementById("result_object_accuracy").innerHTML=results[0].confidence.toFixed(3);
+        console.error(error)
     }
+    console.log(results)
+    document.getElementById('label').innerHTML='Label ' + results[0].label;
+    document.getElementById('confidence').innerHTML='Confidence ' +Math.round(results[0].confidence*100) +'%';
+    utterThis=new SpeechSynthesisUtterance(results[0].label)
+    synth.speak(utterThis);
+}
+
+
+function classifyCanvas()
+{
+    classifier.classify(canvas, gotResult)
+}
+
+
+function clearCanvas()
+{
+background("white");
 }

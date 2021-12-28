@@ -1,24 +1,38 @@
 body
 {
-    background-color: lightblue;
-    color: black;
-
+    background-color: blue;
 }
 
-.heading
+h1
 {
-    width: 70%;
-    font-size: 20px;
+    color: rgb(0, 0, 0);
+    background-color:white;
 }
 
-#camera
+#show_sketch
 {
-border: 2px dashed black;
-width: 320px;
-height: 300px;
+    float:right;
 }
-.name_of_objects, #result_object_name, #result_object_accuracy
+
+canvas
 {
-    color: black;
-    font-size: large;
+    border:5px solid white;
+    border-radius: 20px;
+    animation-name: example;
+    animation-duration: 4s;
+    margin-top: 80px;
+    animation-iteration-count: infinite;
 }
+
+@keyframes example 
+{
+    from{box-shadow: 1px 1px 30px grey;}
+    to{box-shadow: 1px 1px 30px white;}
+}
+
+p
+{
+    padding-top:10px;
+    font-size:25px;
+}
+
