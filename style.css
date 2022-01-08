@@ -1,38 +1,31 @@
-body
+.note
 {
-    background-color: blue;
+    font-size:15px;
+    color: black;
 }
 
-h1
+.copy_right_footer
 {
-    color: rgb(0, 0, 0);
-    background-color:white;
-}
-
-#show_sketch
-{
-    float:right;
+    position:fixed;
+    color: white;
+    bottom:0;
+    width: 100%;
+    background-color: grey;
+    line-height:  3;
+    text-align: center;
 }
 
 canvas
 {
     border:5px solid white;
-    border-radius: 20px;
-    animation-name: example;
-    animation-duration: 4s;
-    margin-top: 80px;
-    animation-iteration-count: infinite;
+    border-radius:20px; 
+    box-shadow:5px 5px 5px grey;
 }
 
-@keyframes example 
+.heading
 {
-    from{box-shadow: 1px 1px 30px grey;}
-    to{box-shadow: 1px 1px 30px white;}
+    font-size: 23px;
+    width:100%;
+    margin: 0px;
+    box-shadow: 5px 5px 5px purple;
 }
-
-p
-{
-    padding-top:10px;
-    font-size:25px;
-}
-

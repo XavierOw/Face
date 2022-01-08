@@ -1,64 +1,49 @@
-function setup() 
+
+noseX=0;
+noseY=0;
+difference=0;
+rightWristX=0;
+leftWristX=0;
+function setup()
 {
-    canvas = createCanvas(280, 280);
-    canvas.center();
-    background("white");
-    canvas.mouseReleased(classifyCanvas);
-    synth=window.speechSynthesis;
+    video = createCapture(VIDEO);
+    video.size(550, 500);
+
+    canvas = createCanvas(550, 550);
+    canvas.position(560, 150);
+
+    poseNet= ml5.poseNet(video, modelLoaded);
+    poseNet.on('pose', gotPoses);
 }
 
-function preload()
+function draw() 
 {
-     classifier = ml5.imageClassifier('DoodleNet');
+    background('black');
+
+    document.getElementById("square_side").innerHTML = "The width and height of the square is " + difference + "px";
+        fill('green');
+        stroke('red');
+        square(noseX, noseY, difference);
 }
 
-function draw()
+function modelLoaded()
 {
- strokeWeight(13);
- stroke(0);
- if (mouseIsPressed)
- {
-line(pmouseX, pmouseY, mouseX, mouseY)
- }
+    console.log('Posenet')
 }
 
-function  counter()
+function gotPoses(numbers)
 {
-    if(condition){
-        counter++
-        }
-        
-}
-
-function counter_speed()
-{
-    if(stroke=='black' || stroke=='red'){
-        line(30,40,25,50)
-        }
-}
-
-
-function gotResult(error, results)
-{
-    if (error)
+    if(numbers.length >0)
     {
-        console.error(error)
+        console.log(numbers)
+        noseX = numbers[0].pose.nose.x;
+        noseY = numbers[0].pose.nose.y;
+        console.log("noseX = " + noseX + "noseY = " + noseY)
+
+        leftWristX = numbers[0].pose.leftWrist.x;
+        rightWristX = numbers[0].pose.rightWrist.x;
+        difference = floor(leftWristX - rightWristX);
+
+        console.log("lefWrist =" + leftWristX + "rightWristX =" + rightWristX + "difference =" + difference)
     }
-    console.log(results)
-    document.getElementById('label').innerHTML='Label ' + results[0].label;
-    document.getElementById('confidence').innerHTML='Confidence ' +Math.round(results[0].confidence*100) +'%';
-    utterThis=new SpeechSynthesisUtterance(results[0].label)
-    synth.speak(utterThis);
-}
-
-
-function classifyCanvas()
-{
-    classifier.classify(canvas, gotResult)
-}
-
-
-function clearCanvas()
-{
-background("white");
 }
